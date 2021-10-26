@@ -8,16 +8,26 @@ const getAll = async (req, res, next) => {
         let {
             order,
             page,
+            name,
         } = req.query
 
         let get
         let gamebd
         let concats = []
         page = page ? page : 1
-        const recipexpag = 15;
+        const gamexpag = 15;
 
-        const result = await axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=50&page=1`)
-        get = await result.data.results.map(games => {
+        // const apione = (await axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=1`)).data.results
+        // const apitwo = (await axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=2`)).data.results
+        // const apithree = (await axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=20&page=3`)).data.results
+        //  let result = apione.concat(apitwo.concat(apithree))
+        //  console.log(result)
+        const apione = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=1`)
+        const apitwo = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=2`)
+        const apithree = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=20&page=3`)
+        let result = await Promise.all([apione, apitwo, apithree])
+        result = result.map(i => i.data.results)
+        get = result.flat().map(games => {
             return {
                 name: games.name,
                 date: games.released,
@@ -37,14 +47,41 @@ const getAll = async (req, res, next) => {
                 }
             }
         })
+        concats = gamebd.concat(get)
 
-        res.send(get)
+        
+        //#name
+        if (name) {
+            name = name.toLowerCase()
+            console.log
+            get = get.filter(game => game.name.toLowerCase().includes(name))
+            gamebd = gamebd.filter(game => game.name.toLowerCase().includes(name))
+            concats = gamebd.concat(get)
+        } else {
+            concats = gamebd.concat(get)
+        }
+        //#pag
+        if (page) {
+            concats = concats.slice((gamexpag * (page-1)), (gamexpag * (page - 1) + gamexpag))
+        }
+        
+        //#order
+        if (order === "asc" || !order || order === "") {
+            concats = concats.sort((a, b) => { return a.name.toLowerCase().localeCompare(b.name.toLowerCase()) })
+        } else {
+            concats = concats.sort((a, b) => { return b.name.toLowerCase().localeCompare(a.name.toLowerCase()) })
+        }
+
+        res.send({
+            count: concats.length,
+            concats: concats
+        })
+
     } catch (error) {
         next(error)
     }
-    cons
-
 }
+
 const postGame = async (req, res, next) => {
     const { name, description, rating, platforms, genres } = req.body
     if (!name || !description || !platforms) {
@@ -65,4 +102,11 @@ const postGame = async (req, res, next) => {
     }
 
 }
-module.exports = { getAll };
+
+const getID = async (req, res, next) => {
+
+}
+
+
+
+module.exports = { getAll, postGame };
