@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
       allowNull:true
     },
     platforms:{
-      type:DataTypes.UUID,
+      type:DataTypes.JSON,
       allowNull: false,
     },
     description:{
