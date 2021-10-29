@@ -19,7 +19,7 @@ const getGenre = async (req, res, next) => {
 
         genreApi = await Promise.all(genreApi.map(e => Genres.findOrCreate({
             where: {
-                name: e.name,
+                name: e,
                 id: uuidv4()
             }
         })))

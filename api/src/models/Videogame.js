@@ -29,7 +29,7 @@ module.exports = (sequelize) => {
       type:DataTypes.TEXT,
       allowNull: false,
     },
-    background_image:{
+    image:{
       type: DataTypes.STRING,
     },
     

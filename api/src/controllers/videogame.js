@@ -12,7 +12,7 @@ const getAll = async (req, res, next) => {
             rating,
         } = req.query
 
-        let get, gamebd, concats
+        var get, gamebd, concats
         // let gamebd
         // let concats = []
         page = page ? page : 1
@@ -25,7 +25,7 @@ const getAll = async (req, res, next) => {
         //  console.log(result)
         const apione = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=1`)
         const apitwo = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=2`)
-        const apithree = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=20&page=3`)
+        const apithree = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=3`)
         let result = await Promise.all([apione, apitwo, apithree])
         result = result.map(i => i.data.results)
         get = result.flat().map(games => {
@@ -37,7 +37,7 @@ const getAll = async (req, res, next) => {
                 description: games.description,
                 platforms: games.platforms.map(plat => plat.platform.name),
                 background_image: games.background_image,
-                genre: games.genres.map(genre => genre.name)
+                Genres: games.genres.map(genre => genre.name)
             }
         })
 
@@ -50,17 +50,17 @@ const getAll = async (req, res, next) => {
                 }
             }
         })
-        gamebd= gamebd.map(e=> {
-            return{
-            id: e.id,
-            name: e.name,
-            date: e.released,
-            rating: e.rating_top,
-            description:e.description,
-            platforms: e.platforms,
-            background_image: e.background_image,
-            genre: e.Genres.map(genre => genre.name)
-        }
+        gamebd = gamebd.map(e => {
+            return {
+                id: e.id,
+                name: e.name,
+                date: e.released,
+                rating: e.rating_top,
+                description: e.description,
+                platforms: e.platforms,
+                image: e.background_image,
+                Genres: e.Genres.map(genre => genre.name)
+            }
         })
         concats = gamebd.concat(get)
 
@@ -75,7 +75,7 @@ const getAll = async (req, res, next) => {
         } else {
             concats = gamebd.concat(get)
         }
-       //----------------- #rating------------------------------
+        //----------------- #rating------------------------------
         // if (order || rating) {
         //     if (order === "asc" || !order || order === "") {
         //         concats = concats.sort((a, b) => { return a.name.toLowerCase().localeCompare(b.name.toLowerCase()) })
@@ -93,19 +93,19 @@ const getAll = async (req, res, next) => {
         // }
 
         //----------------- #rating------------------------------
-        if (rating==="top"){
+        if (rating === "top") {
             concats = concats.sort((a, b) => b.rating - a.rating)
         }
         concats = concats.sort((a, b) => a.rating - b.rating)
 
         //-------------------order----------------
-        if(order === "asc" || !order || order === ""){
+        if (order === "asc" || !order || order === "") {
             concats = concats.sort((a, b) => { return a.name.toLowerCase().localeCompare(b.name.toLowerCase()) })
-        } else if(order ==="desc"){
+        } else if (order === "desc") {
             concats = concats.sort((a, b) => { return b.name.toLowerCase().localeCompare(a.name.toLowerCase()) })
         }
-        
-     //-------------------------------#order------------------
+
+        //-------------------------------#order------------------
         // if (order === "asc" || !order || order === "") {
         //     concats = concats.sort((a, b) => { return a.name.toLowerCase().localeCompare(b.name.toLowerCase()) })
         // } else if (order === "desc") {
