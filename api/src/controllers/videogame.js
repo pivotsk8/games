@@ -1,4 +1,4 @@
-const { Videogame, Genres } = require('../db')
+const { Videogame, Genres,Op } = require('../db')
 const { v4: uuidv4 } = require('uuid')
 const axios = require('axios')
 const { KEY } = process.env;
@@ -12,23 +12,32 @@ const getAll = async (req, res, next) => {
             rating,
         } = req.query
 
-        var get, gamebd, concats
+        var result, gamebd, concats
         // let gamebd
         // let concats = []
         page = page ? page : 1
         const gamexpag = 15;
 
-        // const apione = (await axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=1`)).data.results
-        // const apitwo = (await axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=2`)).data.results
-        // const apithree = (await axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=20&page=3`)).data.results
-        //  let result = apione.concat(apitwo.concat(apithree))
-        //  console.log(result)
+        if(name){
+            result = (await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${KEY}`)).data.results
+            // const apitwo = axios.get(`https://api.rawg.io/api/games?name=${name}key=${KEY}&page_size=40&page=2`)
+            // const apithree = axios.get(`https://api.rawg.io/api/games?name=${name}key=${KEY}&page_size=40&page=3`)
+            gamebd = await Videogame.findAll({
+                where:{
+                    name:{
+                        [Op.iLike]: `%${name}%`
+                    }
+                }
+            })
+            concats = gamebd.concat(result)
+
+        }else{
         const apione = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=1`)
         const apitwo = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=2`)
         const apithree = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=3`)
         let result = await Promise.all([apione, apitwo, apithree])
         result = result.map(i => i.data.results)
-        get = result.flat().map(games => {
+        result = result.flat().map(games => {
             return {
                 id: games.id,
                 name: games.name,
@@ -62,19 +71,19 @@ const getAll = async (req, res, next) => {
                 Genres: e.Genres.map(genre => genre.name)
             }
         })
-        concats = gamebd.concat(get)
+        concats = gamebd.concat(result)}
 
 
         //#name
-        if (name) {
-            name = name.toLowerCase()
-            console.log
-            get = get.filter(game => game.name.toLowerCase().includes(name))
-            gamebd = gamebd.filter(game => game.name.toLowerCase().includes(name))
-            concats = gamebd.concat(get)
-        } else {
-            concats = gamebd.concat(get)
-        }
+        // if (name) {
+        //     name = name.toLowerCase()
+        //     console.log
+        //     get = get.filter(game => game.name.toLowerCase().includes(name))
+        //     gamebd = gamebd.filter(game => game.name.toLowerCase().includes(name))
+        //     concats = gamebd.concat(get)
+        // } else {
+        //     concats = gamebd.concat(get)
+        // }
         //----------------- #rating------------------------------
         // if (order || rating) {
         //     if (order === "asc" || !order || order === "") {
