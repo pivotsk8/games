@@ -5,7 +5,11 @@ const { KEY } = process.env;
 
 const getGenre = async (req, res, next) => {
     try {
-        let genreApi = (await axios.get(`https://api.rawg.io/api/genres?key=${KEY}`)).data.results.map(e => e.name)
+        function onlyUnique(value, index, self) { 
+            return self.indexOf(value) === index;
+        }
+        let genreApi = (await axios.get(`https://api.rawg.io/api/genres?key=${KEY}`)).data.results.map(e => e.name).filter(onlyUnique)
+        genreApi = genreApi
         let genreDb = await Genres.findAll()
 
         if (genreDb.length > 0) {
@@ -17,14 +21,15 @@ const getGenre = async (req, res, next) => {
             }))
         }
 
-        genreApi = await Promise.all(genreApi.map(e => Genres.findOrCreate({
+        genreApi = await Promise.all(genreApi.filter(onlyUnique).map(e => Genres.findOrCreate({
             where: {
                 name: e,
                 id: uuidv4()
             }
         })))
 
-        res.send(genreApi)
+        res.send(
+            genreApi)
     } catch (error) {
         next(error);
     }

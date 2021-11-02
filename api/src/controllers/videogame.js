@@ -1,4 +1,4 @@
-const { Videogame, Genres,Op } = require('../db')
+const { Videogame, Genres, Op } = require('../db')
 const { v4: uuidv4 } = require('uuid')
 const axios = require('axios')
 const { KEY } = process.env;
@@ -12,66 +12,87 @@ const getAll = async (req, res, next) => {
             rating,
         } = req.query
 
+
         var result, gamebd, concats
-        // let gamebd
-        // let concats = []
         page = page ? page : 1
         const gamexpag = 15;
-
-        if(name){
+       
+        
+        if (name && name!=="") {
             result = (await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${KEY}`)).data.results
-            // const apitwo = axios.get(`https://api.rawg.io/api/games?name=${name}key=${KEY}&page_size=40&page=2`)
-            // const apithree = axios.get(`https://api.rawg.io/api/games?name=${name}key=${KEY}&page_size=40&page=3`)
+            result = result.map(games => {
+                return {
+                    id: games.id,
+                    name: games.name,
+                    date: games.released,
+                    rating: games.rating_top,
+                    description: games.description,
+                    platforms: games.platforms.map(plat => plat.platform.name),
+                    background_image: games.background_image,
+                    Genres: games.genres.map(genre => genre.name)
+                }
+            })
+
+          
+               // name=name.split("%20").forEach(element => element.charAt(0).toUpperCase() + element.slice(1) ).join(" ")
+                //name=name.split("%20").forEach(element => element.charAt(0).toUpperCase() + element.slice(1) ).join(" ")
+                
+              
+            
+
+            result = result.filter(game => game.name.includes(name))
+
             gamebd = await Videogame.findAll({
-                where:{
-                    name:{
+                where: {
+                    name: {
                         [Op.iLike]: `%${name}%`
                     }
                 }
             })
             concats = gamebd.concat(result)
 
-        }else{
-        const apione = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=1`)
-        const apitwo = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=2`)
-        const apithree = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=3`)
-        let result = await Promise.all([apione, apitwo, apithree])
-        result = result.map(i => i.data.results)
-        result = result.flat().map(games => {
-            return {
-                id: games.id,
-                name: games.name,
-                date: games.released,
-                rating: games.rating_top,
-                description: games.description,
-                platforms: games.platforms.map(plat => plat.platform.name),
-                background_image: games.background_image,
-                Genres: games.genres.map(genre => genre.name)
-            }
-        })
-
-        gamebd = await Videogame.findAll({
-            include: {
-                model: Genres,
-                attributes: ["name"],
-                through: {
-                    attributes: []
+        } else {
+            const apione = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=1`)
+            const apitwo = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=2`)
+            const apithree = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=3`)
+            let result = await Promise.all([apione, apitwo, apithree])
+            result = result.map(i => i.data.results)
+            result = result.flat().map(games => {
+                return {
+                    id: games.id,
+                    name: games.name,
+                    date: games.released,
+                    rating: games.rating_top,
+                    description: games.description,
+                    platforms: games.platforms.map(plat => plat.platform.name),
+                    background_image: games.background_image,
+                    Genres: games.genres.map(genre => genre.name)
                 }
-            }
-        })
-        gamebd = gamebd.map(e => {
-            return {
-                id: e.id,
-                name: e.name,
-                date: e.released,
-                rating: e.rating_top,
-                description: e.description,
-                platforms: e.platforms,
-                image: e.background_image,
-                Genres: e.Genres.map(genre => genre.name)
-            }
-        })
-        concats = gamebd.concat(result)}
+            })
+
+            gamebd = await Videogame.findAll({
+                include: {
+                    model: Genres,
+                    attributes: ["name"],
+                    through: {
+                        attributes: []
+                    }
+                }
+            })
+            gamebd = gamebd.map(e => {
+                return {
+                    id: e.id,
+                    name: e.name,
+                    date: e.released,
+                    rating: e.rating_top,
+                    description: e.description,
+                    platforms: e.platforms,
+                    image: e.background_image,
+                    Genres: e.Genres.map(genre => genre.name)
+                }
+            })
+            concats = gamebd.concat(result)
+        }
 
 
         //#name
@@ -104,8 +125,8 @@ const getAll = async (req, res, next) => {
         //----------------- #rating------------------------------
         if (rating === "top") {
             concats = concats.sort((a, b) => b.rating - a.rating)
-        }
-        concats = concats.sort((a, b) => a.rating - b.rating)
+        }else if (order === "bottom") {
+        concats = concats.sort((a, b) => a.rating - b.rating)}
 
         //-------------------order----------------
         if (order === "asc" || !order || order === "") {
