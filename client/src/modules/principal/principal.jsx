@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { getAllGame, setPag } from "../../action/actions";
+import { getAllGame, setPag ,getGenre} from "../../action/actions";
 import Card from "../Card/Card.js"
 
 
@@ -13,6 +13,7 @@ const Pagprincipal = () => {
 
     useEffect(() => {
         dispatch(getAllGame({}))
+        dispatch(getGenre())
 
     }, [dispatch])
 
@@ -25,11 +26,11 @@ const Pagprincipal = () => {
 
         <div>
             {
-                games?.concats?.length > 0 && games.concats.map((e, i) => {
+                games?.concats?.length > 0 && games?.concats?.map((e, i) => {
 
                     return (
-                        <div>
-                            <Card name={e.name} id={e.id} key={e.id + i} image={e.background_image} gener={e.Genres.map((el) => <li>{el}</li>)} />
+                        <div key={i}>
+                            <Card name={e.name} id={e.id} key={e.id} image={e.background_image} gener={e.Genres?.map((el) => <li>{el}</li>)} />
                            
                         </div>)
                 })

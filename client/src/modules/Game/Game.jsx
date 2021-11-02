@@ -25,8 +25,8 @@ const Game = (props) => {
             {
                 game?.name?
                 <>
-                    <img src={game.background_image} alt=""/>
                     <h1>{game.name}</h1>
+                    <img src={game.background_image} alt=""/>
                 </>:
                 <h1>Loading...</h1>
             }
