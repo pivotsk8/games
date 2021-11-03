@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
       primaryKey: true,
     },
     date:{
-      type:DataTypes.DATE,
+      type:DataTypes.DATEONLY,
       allowNull:true
     },
     rating:{
@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
       allowNull:true
     },
     platforms:{
-      type:DataTypes.JSON,
+      type:DataTypes.JSONB,
       allowNull: false,
     },
     description:{
@@ -33,5 +33,9 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
     },
     
-  });
+  },
+  {
+    timestamps: false,
+  }
+  );
 };

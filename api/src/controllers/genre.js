@@ -26,14 +26,17 @@ const getGenre = async (req, res, next) => {
                 name: e,
                 id: uuidv4()
             
-        })))}
-
-        res.send({
-            genreApi: genreApi,
-            count: genreApi.length
         })
+        ))}
+
+        res.send(
+            genreApi,
+           )
+
+
     } catch (error) {
         next(error);
     }
+
 }
 module.exports = { getGenre }

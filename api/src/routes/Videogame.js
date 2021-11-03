@@ -5,7 +5,7 @@ const {getAll,postGame,getID} = require('../controllers/videogame')
 
 router.get('/',getAll)
 router.get('/:id',getID)
-router.post('/',postGame)
+router.post('/add',postGame)
 
 
 module.exports = router;

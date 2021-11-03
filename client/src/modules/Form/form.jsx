@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getGenre, createGame, getAllGame } from '../../action/actions';
+import { getGenre, createGame,getAllGame } from '../../action/actions';
 
 const Form = () => {
     const dispatch = useDispatch();
@@ -9,15 +9,19 @@ const Form = () => {
  
 
     //var newGenre=genre.map(e=>e.name)
-
+    function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+    }
+    var array = games.console.map(e=>e.map(platform=>platform.platform.name)).flat().filter(onlyUnique)
+console.log(array)
     const [game, setGame] = useState({
         name: '',
         description: '',
         date: '',
         rating: 0,
         background_image: '',
-        genre: [],
-        platform: [],
+        genres: [],
+        platforms: [],
     });
     useEffect(() => {
         dispatch(getGenre())
@@ -26,6 +30,7 @@ const Form = () => {
     const onSubmit = (e) => {
         e.preventDefault();
         dispatch(createGame(game))
+        dispatch(getAllGame({}))
 
     }
 
@@ -33,19 +38,62 @@ const Form = () => {
         setGame({
             ...game,
             [e.target.name]: e.target.value, 
-            genre:   [game.genre,e.target.value]
 
         })
+    
     }
-console.log(game.genre)
+    function handleOnGenre(e){
+       if(game.genres.includes(e.target.value)){
+        let newgenre = game.genres.filter(ep => ep !== e.target.value)
+        setGame({
+            ...game,
+           genres: newgenre
+        })
+    }else{
+        setGame({
+            ...game,
+            genres: [...game.genres, e.target.value]
+        })
+    }
+    }
+    function handleOnPlatform(e){
+       if(game.platforms.includes(e.target.value)){
+        let newplatform = game.platforms.filter(ep => ep !== e.target.value)
+        setGame({
+            ...game,
+           platforms: newplatform
+        })
+    }else{
+        setGame({
+            ...game,
+            platforms: [...game.platforms, e.target.value]
+        })
+    }
+     }
+    // const handleOnChange = (e)=>{
+    //     if(game.Genres.includes(e.target.value)){
+    //        let newgenre = game.Genres.filter(ep => ep !== e.target.value)
+    //         setGame({
+    //             ...game,
+    //            Genres: newgenre
+    //         })
+    //     }else{
+    //         setGame({
+    //             ...game,
+    //             Genres: [game.Genres, e.target.value]
+    //         })
+    //     }
+    // }
+    
 console.log(game)
-
     return (
         <form onSubmit={onSubmit}>
             <label >name</label>
             <input value={game.name} onChange={handleOnChange} name="name" type="text" />
             <label >platforms</label>
-            <input value={game.platform} onChange={handleOnChange} name="platform" type="text" />
+            <select name="platform" onChange={handleOnPlatform}>
+                {array.map(e => <option value={e}>{e}</option>)}
+            </select>
             <label >date</label>
             <input value={game.date} onChange={handleOnChange} name="date" type="date" />
             <label >Rating</label>
@@ -55,10 +103,10 @@ console.log(game)
             <label >Image</label>
             <input value={game.image} onChange={handleOnChange} name="image" type="text" />
             <label>genre</label>
-            <select onChange ={handleOnChange} name="genre">
+            <select onChange ={handleOnGenre} name="genres" >
                 {genre.length>0 &&
                     genre.map((e) =>(
-                        <option key={e.id} value={e.id}>{e.name}</option>
+                        <option key={e.id} value={e.name}>{e.name}</option>
                     ))
                 }
             </select>

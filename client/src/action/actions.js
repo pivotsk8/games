@@ -90,10 +90,10 @@ export const getGenre = () => {
 }
 
 export const createGame = (game) => {
+    console.log(game)
     return async (dispatch) => {
         try {
-            const resul = await axios.post(`http://localhost:3001/videogames`, game)
-            console.log(game)
+            const resul = await axios.post(`http://localhost:3001/videogames/add`, game)
             return dispatch({
                 type: CREATE_GAME,
                 resul

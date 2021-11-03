@@ -26,6 +26,7 @@ const Game = (props) => {
                 game?.name?
                 <>
                     <h1>{game.name}</h1>
+                    <p>{game.description.replace(/<[^>]*>?/g, "")}</p>
                     <img src={game.background_image} alt=""/>
                 </>:
                 <h1>Loading...</h1>

@@ -25,7 +25,8 @@ function rootReducer(state = inizialstate, { type, payload }) {
         case GET_ALL_GAMES:
             return {
                 ...state,
-                games: payload
+                games: payload,
+               
             }
 
         case SET_PAGE:
@@ -63,16 +64,16 @@ function rootReducer(state = inizialstate, { type, payload }) {
         
             case SET_FILTER:
 
-                let api =state.games.concats.map(game => game.Genres.concats(game))
+                let api =state.games.concats.map(game => game.Genres.filter(element => element === payload))
                
                 console.log(api)
-                console.log(type)
+                console.log(payload)
               
                 
                
             return {
                 ...state,
-                videogame: api
+                games: api
             }
        
             
