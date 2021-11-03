@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
       primaryKey: true,
     },
     date:{
-      type:DataTypes.STRING,
+      type:DataTypes.DATE,
       allowNull:true
     },
     rating:{

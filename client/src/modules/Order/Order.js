@@ -1,17 +1,22 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllGame, setOrder, setRating } from '../../action/actions'
+import { getAllGame, setOrder, setRating, getFilter } from '../../action/actions'
 
 
 function Order() {
-    const { name, page, rating } = useSelector(state => state)
+    const { name, page, genre, } = useSelector(state => state)
     const dispatch = useDispatch()
 
     const handleSelect = (e) => {
         dispatch(setRating(e.target.value))
         dispatch(setOrder(e.target.value))
         dispatch(getAllGame({ name, page, order: e.target.value, rating: e.target.value }))
+        dispatch(getFilter(e.target.value))
     }
+    // const handleSelectFilter = (e) => {
+
+    // }
+
 
     return (
         <div>
@@ -24,8 +29,17 @@ function Order() {
             <div>
                 <label>Ranting</label><select onChange={handleSelect} name="order">
                     <option value="top">Top</option>
-                    <option value="botton" >Botton</option>
+                    <option value="bottom" >Bottom</option>
                 </select>
+            </div>
+            <div>
+                <select onChange={handleSelect} >
+                    <option >Genre</option>
+                    {genre.map((e, i) => {
+                        return (
+                            <option key={i} value={e.name}>{e.name}</option>
+                        )
+                    })} </select>
             </div>
         </div>
     )

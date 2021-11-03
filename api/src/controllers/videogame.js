@@ -16,9 +16,11 @@ const getAll = async (req, res, next) => {
         var result, gamebd, concats
         page = page ? page : 1
         const gamexpag = 15;
-       
         
-        if (name && name!=="") {
+        if (name && name !== "") {
+            name = name.split(" ").map(element =>
+            element.charAt(0).toUpperCase() + element.slice(1)).join(" ")
+            console.log(name)
             result = (await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${KEY}`)).data.results
             result = result.map(games => {
                 return {
@@ -33,12 +35,9 @@ const getAll = async (req, res, next) => {
                 }
             })
 
-          
-               // name=name.split("%20").forEach(element => element.charAt(0).toUpperCase() + element.slice(1) ).join(" ")
-                //name=name.split("%20").forEach(element => element.charAt(0).toUpperCase() + element.slice(1) ).join(" ")
-                
-              
-            
+
+
+
 
             result = result.filter(game => game.name.includes(name))
 
@@ -83,8 +82,8 @@ const getAll = async (req, res, next) => {
                 return {
                     id: e.id,
                     name: e.name,
-                    date: e.released,
-                    rating: e.rating_top,
+                    date: e.date,
+                    rating: e.rating,
                     description: e.description,
                     platforms: e.platforms,
                     image: e.background_image,
@@ -123,10 +122,12 @@ const getAll = async (req, res, next) => {
         // }
 
         //----------------- #rating------------------------------
+
         if (rating === "top") {
             concats = concats.sort((a, b) => b.rating - a.rating)
-        }else if (order === "bottom") {
-        concats = concats.sort((a, b) => a.rating - b.rating)}
+        } else if (order === "bottom") {
+            concats = concats.sort((a, b) => a.rating - b.rating)
+        }
 
         //-------------------order----------------
         if (order === "asc" || !order || order === "") {
@@ -134,7 +135,6 @@ const getAll = async (req, res, next) => {
         } else if (order === "desc") {
             concats = concats.sort((a, b) => { return b.name.toLowerCase().localeCompare(a.name.toLowerCase()) })
         }
-
         //-------------------------------#order------------------
         // if (order === "asc" || !order || order === "") {
         //     concats = concats.sort((a, b) => { return a.name.toLowerCase().localeCompare(b.name.toLowerCase()) })
@@ -204,7 +204,7 @@ const postGame = async (req, res, next) => {
             platforms: platforms,
             date: date,
             description: description,
-            background_image: background_image || "https://www.food4fuel.com/wp-content/uploads/woocommerce-placeholder-600x600.png"
+            background_image: background_image || "https://scontent.fbog2-5.fna.fbcdn.net/v/t1.6435-9/103530467_120118446393287_6263146579495375817_n.jpg?_nc_cat=105&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeG54nZqp-VpyfyQIb0nVow7Bh9fLjzkwCwGH18uPOTALJSgEgsCjQ9BRm8XQ3-YpM0&_nc_ohc=SPDSNMioCEsAX_ttK_R&_nc_ht=scontent.fbog2-5.fna&oh=a1a4fd58556d28bc7669cb7a30fcc71c&oe=61A73A30"
         }
         if (!name || !description || !platforms) {
             return res.status(400).send("te falta un elemento")

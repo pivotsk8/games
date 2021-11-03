@@ -21,6 +21,7 @@ const Pagprincipal = () => {
         dispatch(getAllGame({ page, name, order }))
         dispatch(setPag(page))
     }
+    
 
     return (
 

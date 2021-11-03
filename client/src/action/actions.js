@@ -10,11 +10,11 @@ export const CREATE_GAME = "CREATE_GAME"
 export const SET_FILTER = "SET_FILTER"
 
 
-export const getAllGame = ({ page, order, name,rating }) => {
+export const getAllGame = ({ page, order, name, rating }) => {
 
 
     return (dispatch) => {
-        axios.get(`http://localhost:3001/videogames?page=${page ? page : 1}&order=${order ? order : ""}&name=${name?name : ""}&rating=${rating ? rating:0}`)
+        axios.get(`http://localhost:3001/videogames?page=${page ? page : 1}&order=${order ? order : ""}&name=${name ? name : ""}&rating=${rating ? rating : ""}`)
             .then((response) => {
                 dispatch({
                     type: GET_ALL_GAMES,
@@ -55,38 +55,38 @@ export const setOrder = (order) => {
 export const getFilter = (payload) => {
     return {
         type: SET_FILTER,
-        payload
+       payload: payload
     }
 }
 
-export const getGame=(id)=>{
-    return async (dispatch)=>{
+export const getGame = (id) => {
+    return async (dispatch) => {
         try {
-         const resul=await axios.get(`http://localhost:3001/videogames/${id}`)
-         return dispatch({
-             type:GET_GAME,
-             payload:resul.data,
+            const resul = await axios.get(`http://localhost:3001/videogames/${id}`)
+            return dispatch({
+                type: GET_GAME,
+                payload: resul.data,
             })
         } catch (error) {
             console.error(error)
-            
+
         }
     }
 }
 
-export const getGenre = ()=> {
-    return async (dispatch)=>{
+export const getGenre = () => {
+    return async (dispatch) => {
         try {
-            const resul=await axios.get(`http://localhost:3001/genres`)
+            const resul = await axios.get(`http://localhost:3001/genres`)
             return dispatch({
-                type:GET_GENRE,
-                payload:resul.data,
-               })
-           } catch (error) {
-               console.error(error)
-               
-           }
-       }
+                type: GET_GENRE,
+                payload: resul.data,
+            })
+        } catch (error) {
+            console.error(error)
+
+        }
+    }
 }
 
 export const createGame = (game) => {
@@ -95,8 +95,8 @@ export const createGame = (game) => {
             const resul = await axios.post(`http://localhost:3001/videogames`, game)
             console.log(game)
             return dispatch({
-                type:CREATE_GAME,
-                 resul
+                type: CREATE_GAME,
+                resul
             })
         } catch (error) {
             console.error(error)

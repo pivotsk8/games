@@ -1,6 +1,6 @@
 import './App.css';
 import React from "react"
-import { Route } from "react-router-dom" 
+import  { Route } from "react-router-dom" 
 import Pagprincipal from './modules/principal/principal';
 import Landing from './modules/landing/landing';
 import Nav from "./modules/Navbar/nav"

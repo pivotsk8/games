@@ -8,7 +8,7 @@ const Form = () => {
     
  
 
-    var newGenre=genre.map(e=>e.name)
+    //var newGenre=genre.map(e=>e.name)
 
     const [game, setGame] = useState({
         name: '',
@@ -32,15 +32,20 @@ const Form = () => {
     const handleOnChange = (e) => {
         setGame({
             ...game,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value, 
+            genre:   [game.genre,e.target.value]
+
         })
     }
+console.log(game.genre)
 console.log(game)
 
     return (
         <form onSubmit={onSubmit}>
             <label >name</label>
             <input value={game.name} onChange={handleOnChange} name="name" type="text" />
+            <label >platforms</label>
+            <input value={game.platform} onChange={handleOnChange} name="platform" type="text" />
             <label >date</label>
             <input value={game.date} onChange={handleOnChange} name="date" type="date" />
             <label >Rating</label>
@@ -52,8 +57,8 @@ console.log(game)
             <label>genre</label>
             <select onChange ={handleOnChange} name="genre">
                 {genre.length>0 &&
-                    newGenre.map((e,i) =>(
-                        <option key={i} value={e.id}>{e}</option>
+                    genre.map((e) =>(
+                        <option key={e.id} value={e.id}>{e.name}</option>
                     ))
                 }
             </select>

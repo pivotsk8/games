@@ -11,11 +11,12 @@ import {
 
 const inizialstate = {
     games: [],
+    videogame:[],
     game:{},
     page: 1,
     order: "",
     name: "",
-    rating: 0,
+    rating: "",
     genre:[]
 }
 
@@ -59,10 +60,19 @@ function rootReducer(state = inizialstate, { type, payload }) {
                 ...state,
                 genre:payload
             }
-        case SET_FILTER:
+        
+            case SET_FILTER:
+
+                let api =state.games.concats.map(game => game.Genres.concats(game))
+               
+                console.log(api)
+                console.log(type)
+              
+                
+               
             return {
                 ...state,
-                games:payload.filter(el => el.genres.find(el => el.name === type.payload))
+                videogame: api
             }
        
             
