@@ -167,61 +167,63 @@ const getAll = async (req, res, next) => {
 
 const postGame = async (req, res, next) => {
 
-    // const { name, description, rating, platforms, genres, background_image, date } = req.body
-    // if (!name || !description || !platforms) {
-    //     return res.status(400).send("te falta un elemento")
-    // }
-    // try {
-    //     const game = await Videogame.create({
-    //         id: uuidv4(),
-    //         name: name,
-    //         background_image: background_image,
-    //         description: description,
-    //         rating: rating,
-    //         date: date,
-    //         platforms: platforms.join(' , '),
-    //     })
-    //     if (genres) {
-    //         const genresDb = await Genres.findAll({
-    //             where: {
-    //                 name: genres,
-    //             },
-
-    //             attributes: [
-    //                 'id'
-    //             ],
-
-    //         })
-    //         game.addGenres(genresDb)
-    //     }
-    //     return res.status(200).json({...game,genres});
-    // } catch (error) {
-    //     next(error)
-    // }
-
+    const { name, description, rating, platforms, genres, background_image, date } = req.body
+    if (!name || !description || !platforms) {
+        return res.status(400).send("te falta un elemento")
+    }
     try {
-        const { name, description, rating, platforms, image, date, genres } = req.body
-        let obj = {
+        const game = await Videogame.create({
             id: uuidv4(),
             name: name,
-            rating: rating,
-            platforms: platforms,
-            date: date,
+            background_image: background_image,
             description: description,
-            background_image: image || "https://scontent.fbog2-5.fna.fbcdn.net/v/t1.6435-9/103530467_120118446393287_6263146579495375817_n.jpg?_nc_cat=105&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeG54nZqp-VpyfyQIb0nVow7Bh9fLjzkwCwGH18uPOTALJSgEgsCjQ9BRm8XQ3-YpM0&_nc_ohc=SPDSNMioCEsAX_ttK_R&_nc_ht=scontent.fbog2-5.fna&oh=a1a4fd58556d28bc7669cb7a30fcc71c&oe=61A73A30"
-        }
-        if (!name || !description || !platforms) {
-            return res.status(400).send("te falta un elemento")
-        }
-        const game = await Videogame.create({ ...obj,  })
-        const genre = await Genres.findAll({ where: { name: genres } })
-        await game.addGenres(genre)
+            rating: rating,
+            date: date,
+            platforms: platforms.join(' , '),
+        })
+        if (genres) {
+            const genresDb = await Genres.findAll({
+                where: {
+                    name: genres,
+                },
 
-        res.json(game)
+                attributes: [
+                    'id'
+                ],
 
+            })
+            game.addGenres(genresDb)
+        }
+        return res.status(200).json({...game,genres});
     } catch (error) {
         next(error)
     }
+    
+
+    // try {
+    //     const { name, description, rating, platforms, image, date, genres } = req.body
+    //     let obj = {
+    //         id: uuidv4(),
+    //         name: name,
+    //         rating: rating,
+    //         platforms: platforms,
+    //         date: date,
+    //         description: description,
+    //         background_image: image || "https://scontent.fbog2-5.fna.fbcdn.net/v/t1.6435-9/103530467_120118446393287_6263146579495375817_n.jpg?_nc_cat=105&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeG54nZqp-VpyfyQIb0nVow7Bh9fLjzkwCwGH18uPOTALJSgEgsCjQ9BRm8XQ3-YpM0&_nc_ohc=SPDSNMioCEsAX_ttK_R&_nc_ht=scontent.fbog2-5.fna&oh=a1a4fd58556d28bc7669cb7a30fcc71c&oe=61A73A30"
+    //     }
+    //     if (!name || !description || !platforms) {
+    //         return res.status(400).send("te falta un elemento")
+    //     }
+    //     const game = await Videogame.create({ ...obj,  })
+    //     const genre = await Genres.findAll({ name: genres } )
+    //     console.log(genres)
+    //     await game.addGenres(genre)
+
+    //     res.json(game)
+
+    // } catch (error) {
+    //     next(error)
+    // }
 
 
     // const { name, description, rating, platforms, image, date, genres } = req.body

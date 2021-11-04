@@ -6,18 +6,18 @@ import {
     SET_ORDER,
     SET_RATING,
     GET_GENRE,
-   SET_FILTER
+    SET_FILTER
 } from "../action/actions"
 
 const inizialstate = {
-    games: [],
-    videogame:[],
-    game:{},
+    filtergames: [],
+    allGames: [],
+    game: {},
     page: 1,
     order: "",
     name: "",
     rating: "",
-    genre:[]
+    genre: []
 }
 
 function rootReducer(state = inizialstate, { type, payload }) {
@@ -25,8 +25,9 @@ function rootReducer(state = inizialstate, { type, payload }) {
         case GET_ALL_GAMES:
             return {
                 ...state,
-                games: payload,
-               
+                allGames: payload,
+                filtergames: payload
+
             }
 
         case SET_PAGE:
@@ -43,40 +44,38 @@ function rootReducer(state = inizialstate, { type, payload }) {
         case SET_NAME:
             return {
                 ...state,
-                name:payload
-            } 
+                name: payload
+            }
         case SET_ORDER:
             return {
                 ...state,
-                order:payload
-            } 
+                order: payload
+            }
         case GET_GAME:
             return {
                 ...state,
-                game:payload
+                game: payload
             }
-       
+
         case GET_GENRE:
             return {
                 ...state,
-                genre:payload
+                genre: payload
             }
-        
-            case SET_FILTER:
 
-                let api =state.games.concats.map(game => game.Genres.filter(element => element === payload))
-               
-                console.log(api)
-                console.log(payload)
-              
-                
-               
+        case SET_FILTER:
+
+
+            let results = state.allGames.concats.filter(game => payload ? game.Genres.includes(payload) : true)
+
+
+
             return {
                 ...state,
-                games: api
+                filtergames: { concats: [...results], counts: results.length }
             }
-       
-            
+
+
 
         default:
             return state

@@ -4,7 +4,7 @@ import { getGenre, createGame,getAllGame } from '../../action/actions';
 
 const Form = () => {
     const dispatch = useDispatch();
-    const { genre, games } = useSelector(state => state);
+    const { genre, allGames } = useSelector(state => state);
     
  
 
@@ -12,7 +12,7 @@ const Form = () => {
     function onlyUnique(value, index, self) {
         return self.indexOf(value) === index;
     }
-    var array = games.console.map(e=>e.map(platform=>platform.platform.name)).flat().filter(onlyUnique)
+    var array = allGames.console.map(e=>e.map(platform=>platform.platform.name)).flat().filter(onlyUnique)
 console.log(array)
     const [game, setGame] = useState({
         name: '',
