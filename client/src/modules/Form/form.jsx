@@ -7,13 +7,13 @@ const Form = () => {
     const { genre, allGames } = useSelector(state => state);
     
  
-
     //var newGenre=genre.map(e=>e.name)
     function onlyUnique(value, index, self) {
         return self.indexOf(value) === index;
     }
+
     var array = allGames.console.map(e=>e.map(platform=>platform.platform.name)).flat().filter(onlyUnique)
-console.log(array)
+
     const [game, setGame] = useState({
         name: '',
         description: '',
@@ -85,7 +85,7 @@ console.log(array)
     //     }
     // }
     
-console.log(game)
+
     return (
         <form onSubmit={onSubmit}>
             <label >name</label>

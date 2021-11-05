@@ -30,7 +30,7 @@ const getAll = async (req, res, next) => {
                     rating: games.rating_top,
                     description: games.description,
                     platforms: games.platforms.map(plat => plat.platform.name),
-                    background_image: games.background_image,
+                    image: games.background_image,
                     Genres: games.genres.map(genre => genre.name)
                 }
             })
@@ -65,7 +65,7 @@ const getAll = async (req, res, next) => {
                     rating: games.rating_top,
                     description: games.description,
                     platforms: games.platforms.map(plat => plat.platform.name),
-                    background_image: games.background_image,
+                    image: games.background_image,
                     Genres: games.genres.map(genre => genre.name)
                 }
             })
@@ -87,7 +87,7 @@ const getAll = async (req, res, next) => {
                     rating: e.rating,
                     description: e.description,
                     platforms: e.platforms,
-                    image: e.background_image,
+                    image: e.image,
                     Genres: e.Genres.map(genre => genre.name)
                 }
             })
@@ -155,7 +155,7 @@ const getAll = async (req, res, next) => {
         }
 
         res.send({
-            count2:15,
+            count2: 15,
             count: concats.length,
             concats: concats,
             console: console,
@@ -178,7 +178,7 @@ const postGame = async (req, res, next) => {
         const game = await Videogame.create({
             id: uuidv4(),
             name: name,
-            background_image: background_image,
+            image: background_image || "https://scontent.fbog2-5.fna.fbcdn.net/v/t1.6435-9/103530467_120118446393287_6263146579495375817_n.jpg?_nc_cat=105&ccb=1-5&_nc_sid=09cbfe&_nc_eui2=AeG54nZqp-VpyfyQIb0nVow7Bh9fLjzkwCwGH18uPOTALJSgEgsCjQ9BRm8XQ3-YpM0&_nc_ohc=SPDSNMioCEsAX_ttK_R&_nc_ht=scontent.fbog2-5.fna&oh=a1a4fd58556d28bc7669cb7a30fcc71c&oe=61A73A30",
             description: description,
             rating: rating,
             date: date,
@@ -255,32 +255,33 @@ const getID = async (req, res, next) => {
     let game;
     try {
         if (isNaN(id)) {
-         game = await Videogame.findByPk(id,{
-            include: {
-                model: Genres,
-                attributes: ["name"],
-                through: {
-                    attributes: []
+            game = await Videogame.findByPk(id, {
+                include: {
+                    model: Genres,
+                    attributes: ["name"],
+                    through: {
+                        attributes: []
+                    }
                 }
-            }})
-        //   game=[game].map(e => {
-        //         return {
-        //             id: e.id,
-        //             name: e.name,
-        //             date: e.date,
-        //             rating: e.rating,
-        //             description: e.description,
-        //             platforms: e.platforms,
-        //             image: e.background_image,
-        //             Genres: e.Genres.map(genre => genre.name)
-        //         }
-        //     })
-            
-            
-            
+            })
+            //   game=[game].map(e => {
+            //         return {
+            //             id: e.id,
+            //             name: e.name,
+            //             date: e.date,
+            //             rating: e.rating,
+            //             description: e.description,
+            //             platforms: e.platforms,
+            //             image: e.background_image,
+            //             Genres: e.Genres.map(genre => genre.name)
+            //         }
+            //     })
+
+
+
         } else {
             game = (await axios.get(`https://api.rawg.io/api/games/${id}?key=${KEY}`)).data
-        
+
         }
         return res.send(game)
     } catch (error) {
