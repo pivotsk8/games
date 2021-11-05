@@ -7,26 +7,29 @@ import Card from "../Card/Card.js"
 
 const Pagprincipal = () => {
     const dispatch = useDispatch()
-    const { filtergames, page, order, name } = useSelector(state => state)
+    const { allGames,filtergames, page, order, name } = useSelector(state => state)
 
 
 
     useEffect(() => {
         dispatch(getAllGame({}))
         dispatch(getGenre())
-    }, [])
+    }, [],filtergames)
 
     const changepag = (page) => {
         dispatch(getAllGame({ page, name, order }))
         dispatch(setPag(page))
     }
 
-console.log(filtergames,"este es el filter")
+
     return (
 
         <div>
             {
+                //allGames?.concats?.length > 0 && allGames?.concats?.map((e) => {
+                //allGames?.concats2?.length > 0 && allGames?.concats2?.map((e) => {
                 filtergames?.concats?.length > 0 && filtergames?.concats?.map((e) => {
+               // filtergames?.concats2?.length > 0 && filtergames?.concats2?.map((e) => {
 
                     return (
 
@@ -39,7 +42,8 @@ console.log(filtergames,"este es el filter")
 
             <button disabled={page - 1 === 0} onClick={() => { changepag(page - 1) }}>previous</button>
             <label>{page}</label>
-            <button disabled={filtergames?.count <= (page * 2)} onClick={() => { changepag(page + 1) }}>next</button>
+            <button disabled={allGames?.count <= (page * 2)} onClick={() => { changepag(page + 1) }}>next</button>
+            {/* <button disabled={filtergames?.count <= (page * 2)} onClick={() => { changepag(page + 1) }}>next</button> */}
         </div>
     )
 }

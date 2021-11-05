@@ -66,13 +66,19 @@ function rootReducer(state = inizialstate, { type, payload }) {
         case SET_FILTER:
 
 
-            let results = state.allGames.concats.filter(game => payload ? game.Genres.includes(payload) : true)
+            let results = state.allGames.concats2.filter(game => payload ? game.Genres.includes(payload) : true)
+            //let results = state.allGames.concats.filter(game => payload ? game.Genres.includes(payload) : true)
+            //let results = state.filtergames.concats2.filter(game => payload ? game.Genres.includes(payload) : true)
+           // let results = state.filtergames.concats.filter(game => payload ? game.Genres.includes(payload) : true)
 
 
 
             return {
                 ...state,
+               //allGames: { concats2: [...results], counts: results.length }
+               //allGames: { concats: [...results], counts: results.length }
                 filtergames: { concats: [...results], counts: results.length }
+                //filtergames: { concats2: [...results], counts: results.length }
             }
 
 

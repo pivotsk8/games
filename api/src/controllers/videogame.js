@@ -13,7 +13,7 @@ const getAll = async (req, res, next) => {
         } = req.query
 
 
-        var result, gamebd, concats,console
+        var result, gamebd, concats, console, concats2
         page = page ? page : 1
         const gamexpag = 15;
 
@@ -56,7 +56,7 @@ const getAll = async (req, res, next) => {
             const apithree = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=3`)
             let result = await Promise.all([apione, apitwo, apithree])
             result = result.map(i => i.data.results)
-            console = result.flat().map(game =>game.platforms)
+            console = result.flat().map(game => game.platforms)
             result = result.flat().map(games => {
                 return {
                     id: games.id,
@@ -92,6 +92,7 @@ const getAll = async (req, res, next) => {
                 }
             })
             concats = gamebd.concat(result)
+            concats2 = concats
         }
 
 
@@ -156,13 +157,14 @@ const getAll = async (req, res, next) => {
         res.send({
             count: concats.length,
             concats: concats,
-            console: console
+            console: console,
+            concats2: concats2
         })
 
     } catch (error) {
         next(error)
     }
-    
+
 }
 
 const postGame = async (req, res, next) => {
@@ -194,11 +196,11 @@ const postGame = async (req, res, next) => {
             })
             game.addGenres(genresDb)
         }
-        return res.status(200).json({...game,genres});
+        return res.status(200).json({ ...game, genres });
     } catch (error) {
         next(error)
     }
-    
+
 
     // try {
     //     const { name, description, rating, platforms, image, date, genres } = req.body
@@ -243,7 +245,7 @@ const postGame = async (req, res, next) => {
     //     })
     //     .catch((error) => next(error))
 
-     console.log(game)
+    console.log(game)
 
 }
 
@@ -252,7 +254,29 @@ const getID = async (req, res, next) => {
     let game;
     try {
         if (isNaN(id)) {
-            game = await Videogame.findByPk(id)
+         game = await Videogame.findByPk(id,{
+            include: {
+                model: Genres,
+                attributes: ["name"],
+                through: {
+                    attributes: []
+                }
+            }})
+          game=[game].map(e => {
+                return {
+                    id: e.id,
+                    name: e.name,
+                    date: e.date,
+                    rating: e.rating,
+                    description: e.description,
+                    platforms: e.platforms,
+                    image: e.background_image,
+                    genres: e.Genres.map(genre => genre.name)
+                }
+            })
+
+            
+           
         } else {
             game = (await axios.get(`https://api.rawg.io/api/games/${id}?key=${KEY}`)).data
         }
