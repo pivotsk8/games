@@ -155,6 +155,7 @@ const getAll = async (req, res, next) => {
         }
 
         res.send({
+            count2:15,
             count: concats.length,
             concats: concats,
             console: console,
@@ -262,23 +263,24 @@ const getID = async (req, res, next) => {
                     attributes: []
                 }
             }})
-          game=[game].map(e => {
-                return {
-                    id: e.id,
-                    name: e.name,
-                    date: e.date,
-                    rating: e.rating,
-                    description: e.description,
-                    platforms: e.platforms,
-                    image: e.background_image,
-                    genres: e.Genres.map(genre => genre.name)
-                }
-            })
-
+        //   game=[game].map(e => {
+        //         return {
+        //             id: e.id,
+        //             name: e.name,
+        //             date: e.date,
+        //             rating: e.rating,
+        //             description: e.description,
+        //             platforms: e.platforms,
+        //             image: e.background_image,
+        //             Genres: e.Genres.map(genre => genre.name)
+        //         }
+        //     })
             
-           
+            
+            
         } else {
             game = (await axios.get(`https://api.rawg.io/api/games/${id}?key=${KEY}`)).data
+        
         }
         return res.send(game)
     } catch (error) {

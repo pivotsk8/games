@@ -77,7 +77,8 @@ function rootReducer(state = inizialstate, { type, payload }) {
                 ...state,
                //allGames: { concats2: [...results], counts: results.length }
                //allGames: { concats: [...results], counts: results.length }
-                filtergames: { concats: [...results], counts: results.length }
+               // filtergames: { concats: [...results], counts: results.length }
+                filtergames: { concats: [...results], counts: 15 }
                 //filtergames: { concats2: [...results], counts: results.length }
             }
 

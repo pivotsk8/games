@@ -20,6 +20,8 @@ const Pagprincipal = () => {
         dispatch(getAllGame({ page, name, order }))
         dispatch(setPag(page))
     }
+console.log(allGames,'store allgames')
+console.log(filtergames,'store filterga')
 
 
     return (
@@ -42,8 +44,8 @@ const Pagprincipal = () => {
 
             <button disabled={page - 1 === 0} onClick={() => { changepag(page - 1) }}>previous</button>
             <label>{page}</label>
-            <button disabled={allGames?.count <= (page * 2)} onClick={() => { changepag(page + 1) }}>next</button>
-            {/* <button disabled={filtergames?.count <= (page * 2)} onClick={() => { changepag(page + 1) }}>next</button> */}
+            {/* <button disabled={allGames?.count <= (page * 2)} onClick={() => { changepag(page + 1) }}>next</button> */}
+            <button disabled={filtergames?.count <= (page * 1.5)} onClick={() => { changepag(page + 1) }}>next</button>
         </div>
     )
 }
