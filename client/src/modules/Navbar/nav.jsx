@@ -1,23 +1,24 @@
 import React from "react";
 import Search from "../Search/Busqueda.js"
-import Order from "../Order/Order.js";
-import{NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import style from "./style.module.css"
 
 
 function navBar() {
     return (
-        <nav>
-            <Search/>
-            <Order/>
+        <nav className={style.navbar}>
             <div>
-                <NavLink to = "/home"> home</NavLink>
+                <h5>logo</h5>
             </div>
-           <div>
-               <NavLink to = "/form">create</NavLink>
-           </div>
+            <div className={style.filter}>
+                <Search />
+                <NavLink to="/home"> home</NavLink>
+                <NavLink to="/form">create</NavLink>
+            </div>
 
 
         </nav>
+
     )
 }
 

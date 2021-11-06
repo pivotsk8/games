@@ -4,6 +4,13 @@
     justify-content: space-around;
 }
 
+.Order {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    background-color:red
+    
+}
 .li {
     list-style: none;
     font-size: 8px

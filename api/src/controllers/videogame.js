@@ -54,6 +54,7 @@ const getAll = async (req, res, next) => {
             const apione = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=1`)
             const apitwo = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=2`)
             const apithree = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page_size=40&page=3`)
+            //const apithree = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page=3`)
             let result = await Promise.all([apione, apitwo, apithree])
             result = result.map(i => i.data.results)
             console = result.flat().map(game => game.platforms)

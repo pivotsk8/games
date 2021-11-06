@@ -1,0 +1,15 @@
+.fil {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: #0e52938c;
+    margin-bottom: 20px;
+    height: 24px;
+}
+
+.selects {
+    background-color:#1039608f;
+    color: #858890;
+    border: none;
+    font-size: 20px;
+}

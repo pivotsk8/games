@@ -5,14 +5,15 @@ import style from "./style.module.css"
 const Card = ({ image, name, id, gener, ...props }) => {
     return (
         <div {...props} className={style.container}>
-                <NavLink className={style.nav} to={`/id/${id}`}>
-            <div className={style.divText}>
-                <h3>{name}</h3>
-                <span>{gener}</span>
-            </div>
-                </NavLink>
+            <NavLink className={style.nav} to={`/id/${id}`}>
+                <div className={style.divText}>
+                    <h3>{name}</h3>
+                    <span>{gener}</span>
+                </div>
+            </NavLink>
+
             <div>
-                    <img className={style.images} src={image} alt={name} />
+                <NavLink className={style.nav} to={`/id/${id}`}> <img className={style.images} src={image} alt={name} /></NavLink>
             </div>
 
         </div>

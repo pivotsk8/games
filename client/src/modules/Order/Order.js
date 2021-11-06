@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllGame, setOrder, setRating, getFilter } from '../../action/actions'
+import style from "./style.module.css"
 
 
 function Order() {
@@ -19,23 +20,25 @@ function Order() {
 
 
     return (
-        <div>
-            <div> <label>Order</label>
-                <select onChange={handleSelect} name="order">
+        <div className={style.fil}>
+            <div>
+                <select className={style.selects} onChange={handleSelect} name="order">
+                    <option>order</option>
                     <option value="asc">Ascendente</option>
                     <option value="desc" >Descendente</option>
                 </select>
             </div>
-            <div>
-                <label>Ranting</label><select onChange={handleSelect} name="order">
+            <div >
+                <select className={style.selects} onChange={handleSelect} name="order">
+                    <option>rating</option>
                     <option value="top">Top</option>
                     <option value="bottom" >Bottom</option>
                 </select>
             </div>
-            <div>
-                <select onChange={handleSelectFilter} >
+            <div  >
+                <select className={style.selects} onChange={handleSelectFilter} >
                     <option value="">all Genres</option>
-                    
+
                     {genre.map((e, i) => {
                         return (
                             <option key={i} value={e.name}>{e.name}</option>
