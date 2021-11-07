@@ -37,8 +37,8 @@ function Order() {
             </div>
             <div  >
                 <select className={style.selects} onChange={handleSelectFilter} >
+                    {/* <option >Genres</option> */}
                     <option value="">all Genres</option>
-
                     {genre.map((e, i) => {
                         return (
                             <option key={i} value={e.name}>{e.name}</option>

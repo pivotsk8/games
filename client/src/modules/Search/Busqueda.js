@@ -19,7 +19,7 @@ function Search() {
         setInput("")
         
     }
-    console.log(name)
+    
     
     return (
         <form onSubmit={onSubmit}>

@@ -2,6 +2,9 @@
   text-align: center;
   background: black;
   background-size: cover;
+  
+  width: auto;
+  height: auto;
 }
 
 .App-logo {

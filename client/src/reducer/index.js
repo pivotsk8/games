@@ -75,11 +75,11 @@ function rootReducer(state = inizialstate, { type, payload }) {
 
             return {
                 ...state,
-               //allGames: { concats2: [...results], counts: results.length }
-               //allGames: { concats: [...results], counts: results.length }
-               // filtergames: { concats: [...results], counts: results.length }
-                filtergames: { concats: [...results], counts: 15 }
-                //filtergames: { concats2: [...results], counts: results.length }
+                //allGames: { concats2: [...results], counts: results.length }
+                // allGames: { concats: [...results], counts: results.length }
+                filtergames: { concats: [...results], counts: results.length }
+                //filtergames: { concats: [...results], counts: 15 }
+                 //filtergames :{ concats2: [...results], counts: results.length }
             }
 
 

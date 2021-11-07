@@ -29,25 +29,57 @@ const getAll = async (req, res, next) => {
                     date: games.released,
                     rating: games.rating_top,
                     description: games.description,
-                    platforms: games.platforms.map(plat => plat.platform.name),
+                    platforms: games.platforms.map(plat => plat.platform.name).join(' , '),
                     image: games.background_image,
                     Genres: games.genres.map(genre => genre.name)
                 }
             })
 
-
-
-
-
             result = result.filter(game => game.name.includes(name))
 
             gamebd = await Videogame.findAll({
-                where: {
-                    name: {
-                        [Op.iLike]: `%${name}%`
+                include: {
+                    model: Genres,
+                    attributes: ["name"],
+                    through: {
+                        attributes: []
                     }
                 }
             })
+            gamebd = gamebd.map(e => {
+                return {
+                    id: e.id,
+                    name: e.name,
+                    date: e.date,
+                    rating: e.rating,
+                    description: e.description,
+                    platforms: e.platforms,
+                    image: e.image,
+                    Genres: e.Genres.map(genre => genre.name)
+                }
+            })
+
+            // gamebd = await Videogame.findAll({
+            //     where: {
+            //         name: {
+            //             [Op.iLike]: `%${name}%`
+            //         },
+            //     }
+
+            // })
+
+            // gamebd = gamebd.map(e => {
+            //     return {
+            //         id: e.id,
+            //         name: e.name,
+            //         date: e.date,
+            //         rating: e.rating,
+            //         description: e.description,
+            //         platforms: e.platforms,
+            //         image: e.image,
+            //         Genres: e.Genres.map(genre => genre.name)
+            //     }
+            // })
             concats = gamebd.concat(result)
 
         } else {
