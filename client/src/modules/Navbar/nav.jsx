@@ -8,12 +8,12 @@ function navBar() {
     return (
         <nav className={style.navbar}>
             <div>
-                <h5>logo</h5>
+                <h5>soy logo</h5>
             </div>
             <div className={style.filter}>
+                <NavLink className={style.nav}to="/home"> home</NavLink>
                 <Search />
-                <NavLink to="/home"> home</NavLink>
-                <NavLink to="/form">create</NavLink>
+                <NavLink className={style.nav} to="/form">create</NavLink>
             </div>
 
 

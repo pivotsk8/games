@@ -18,7 +18,7 @@ const Game = (props) => {
     const goBack = () => {
         history.goBack()
     }
-
+   
     return (
         <div className={style.container}>
             <button onClick={goBack}>Back</button>
@@ -27,14 +27,16 @@ const Game = (props) => {
                 typeof game?.id === "number" ?
                     <>
                         <h1>{game.name}</h1>
-                        <img src={game.background_image} alt="" />
+                        <img className={style.img} src={game.background_image} alt="" />
                         <div>
-                            <h3>{game.genres.map(e => e.name )}</h3>
+                            <h3>{game.genres.map(e => e.name).join(" ")}</h3>
                             <h3>{game.platforms.map(e => e.platform.name).join(' , ')}</h3>
                             <h3>{game.released}</h3>
                             <h3>{game.rating}</h3>
                         </div>
-                        <p className={style.description}>{game.description.replace(/<[^>]*>?/g, "")}</p>
+                        <div>
+                            <p className={style.description}>{game.description.replace(/<[^>]*>?/g, "")}</p>
+                        </div>
                     </> : game?.Genres ?
                         <>
                             <h1>{game.name}</h1>

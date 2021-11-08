@@ -17,25 +17,35 @@ const getAll = async (req, res, next) => {
         page = page ? page : 1
         const gamexpag = 15;
 
+        function onlyUnique(value, index, self) {
+            return self.indexOf(value) === index;
+        }
+
         if (name && name !== "") {
+
             name = name.split(" ").map(element =>
                 element.charAt(0).toUpperCase() + element.slice(1)).join(" ")
+            let normal = name.toLowerCase()
+
             result = (await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${KEY}`)).data.results
-            //platforms = result.flat().map(game =>game.platforms)
+
+
             result = result.map(games => {
                 return {
                     id: games.id,
-                    name: games.name,
+                    name: games.name.toLowerCase(),
                     date: games.released,
                     rating: games.rating_top,
                     description: games.description,
-                    platforms: games.platforms.map(plat => plat.platform.name).join(' , '),
+                   // platforms: games.platforms.map(plat => plat.platform.name).join(' , '),
+                   // platforms: games.platforms.map(plat => plat.platform),
                     image: games.background_image,
                     Genres: games.genres.map(genre => genre.name)
                 }
             })
 
-            result = result.filter(game => game.name.includes(name))
+            result = result.filter(game => game.name.includes(normal))
+
 
             gamebd = await Videogame.findAll({
                 include: {
@@ -43,9 +53,34 @@ const getAll = async (req, res, next) => {
                     attributes: ["name"],
                     through: {
                         attributes: []
-                    }
-                }
+                    }, 
+                    name: {
+                    [Op.iLike]: `%${name}%`
+                }}
+
+                // }
+                // where: {
+                //             name: {
+                //                 [Op.iLike]: `%${name}%`
+                //             },
+                //             include: [{
+                //                  model:Videogame.Genres,
+                //                 attributes: ["name"],
+
+                //         }]}
+
+                // include: [{
+                //     model: Genres,
+                //     through: {
+                //       where: {
+                                
+                //         completed: true
+                //       }
+                //     }}
+                //   ]
+                //   erroneo
             })
+
             gamebd = gamebd.map(e => {
                 return {
                     id: e.id,
@@ -89,7 +124,8 @@ const getAll = async (req, res, next) => {
             //const apithree = axios.get(`https://api.rawg.io/api/games?key=${KEY}&page=3`)
             let result = await Promise.all([apione, apitwo, apithree])
             result = result.map(i => i.data.results)
-            console = result.flat().map(game => game.platforms)
+            //  console = result.flat().map(game => game.platforms)
+            console = result.flat().map(game => game.platforms.map(e => e.platform.name)).flat().filter(onlyUnique)
             result = result.flat().map(games => {
                 return {
                     id: games.id,

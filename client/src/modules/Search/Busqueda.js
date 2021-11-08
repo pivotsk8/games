@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { setName, getAllGame, setPag } from '../../action/actions'
 import { useDispatch } from "react-redux"
+import style from "./style.module.css"
 
 function Search() {
     const [name, setInput] = useState("")
@@ -23,8 +24,8 @@ function Search() {
     
     return (
         <form onSubmit={onSubmit}>
-            <input type="text" placeholder="search name" onChange={handleOnChange} value={name} />
-            <button type="submit">Search</button>
+            <input className={style.input} type="text" placeholder="search name" onChange={handleOnChange} value={name} />
+            <button className={style.search} type="submit">Search</button>
 
         </form>
     )

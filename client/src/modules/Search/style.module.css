@@ -1,0 +1,18 @@
+.search {
+    background-color: transparent;
+    color: #fff9f9;
+    border-width: 0.1px;
+    border-radius: 0px 11px 10px 0px;
+}
+
+.input {
+    background-color: #ffffff00;
+    flex-grow: 3;
+    color: #3c1515;
+    border-width: 0.1px;
+    border-radius: 15px 0 0 15px;
+}
+
+.input:focus {
+    outline: none;
+}

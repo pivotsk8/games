@@ -14,9 +14,15 @@ function Order() {
         dispatch(getAllGame({ name, page, order: e.target.value, rating: e.target.value }))
     }
     const handleSelectFilter = (e) => {
-        dispatch(getFilter(e.target.value))
+        e.target.value === "" ?
+            dispatch(getAllGame({ page, })) :
+            dispatch(getFilter(e.target.value))
 
     }
+    // const handleSelectFilter = (e) => {
+    //     dispatch(getFilter(e.target.value))
+
+    // }
 
 
     return (
@@ -37,7 +43,7 @@ function Order() {
             </div>
             <div  >
                 <select className={style.selects} onChange={handleSelectFilter} >
-                    {/* <option >Genres</option> */}
+                    <option value="" >Genres</option>
                     <option value="">all Genres</option>
                     {genre.map((e, i) => {
                         return (
