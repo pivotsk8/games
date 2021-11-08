@@ -8,7 +8,7 @@ function navBar() {
     return (
         <nav className={style.navbar}>
             <div>
-                <h5>soy logo</h5>
+                <img src="./logo.png"/>
             </div>
             <div className={style.filter}>
                 <NavLink className={style.nav}to="/home"> home</NavLink>

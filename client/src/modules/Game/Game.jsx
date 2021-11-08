@@ -40,7 +40,7 @@ const Game = (props) => {
                     </> : game?.Genres ?
                         <>
                             <h1>{game.name}</h1>
-                            <img src={game.image} alt="" />
+                            <img className={style.img} src={game.image} alt="" />
                             <div>
                                 <h3>{game.Genres.map(e => e.name)}</h3>
                                 <h3>{game.platforms}</h3>

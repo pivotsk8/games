@@ -24,18 +24,20 @@ const Pagprincipal = () => {
     }
 
 
-    const all = () => {
-        dispatch(getAllGame({ page, order }))
-    }
+    // const all = () => {
+    //     dispatch(getAllGame({ page, order }))
+    // }
+   
 
     return (
+
         <div>
 
             <Order />
             {/* <button onClick={all} >all</button> */}
+            
             <div className={style.container} >
                 {/* option 4;  reducer 2,3 */}
-
                 {
                     //allGames?.concats?.length > 0 && allGames?.concats?.map((e) => {
                     //allGames?.concats2?.length > 0 && allGames?.concats2?.map((e) => {
@@ -48,8 +50,9 @@ const Pagprincipal = () => {
 
                         )
                     })
+                
                 }
-
+              
                 <div className={style.page}>
                     <button className={style.back} disabled={page - 1 === 0} onClick={() => { changepag(page - 1) }}>back</button>
                     <label className={style.pag}>{page}</label>

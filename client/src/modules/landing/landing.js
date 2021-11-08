@@ -1,7 +1,7 @@
-import React,{ useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getGenre } from "../../action/actions";
+import { getGenre, getAllGame } from "../../action/actions";
 import style from './style.module.css'
 
 
@@ -10,11 +10,14 @@ const LandingPage = () => {
 
     useEffect(() => {
         dispatch(getGenre())
+        dispatch(getAllGame({}))
     }, [dispatch])
 
     return (
         <div className={style.landing}>
-            <NavLink to="/home"className={style.nav} > Inicio </NavLink>
+            <NavLink to="/home">
+                <img src="C:\Users\USER\Desktop\games\client\src\modules\landing\KEY0.CC-Press-Start-Png-Press-Start-Pixel-Png.png" />
+            </NavLink>
         </div>
     )
 }

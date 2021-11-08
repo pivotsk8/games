@@ -1,13 +1,10 @@
 .landing {
     background-image: url(./Game.jpg);
     background-size: cover;
+    height: 24rem;
 }
 .nav {
-    width: 700px;
-    height: 300px;
-    animation-duration: 3s;
-    animation-name: logo;
-    animation-iteration-count: infinite;
+   
   }
   
   @keyframes logo {
