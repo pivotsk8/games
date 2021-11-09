@@ -18,37 +18,74 @@ const Game = (props) => {
     const goBack = () => {
         history.goBack()
     }
-   
-    return (
-        <div className={style.container}>
-            <button onClick={goBack}>Back</button>
 
+    return (
+        <div >
+
+            <button onClick={goBack} className={style.button}>Back</button>
             {
                 typeof game?.id === "number" ?
-                    <>
+                    <div className={style.container}>
                         <h1>{game.name}</h1>
                         <img className={style.img} src={game.background_image} alt="" />
-                        <div>
-                            <h3 className={style.genres}>{game.genres.map(e => e.name).join(" ")}</h3>
-                            <h3 >{game.platforms.map(e => e.platform.name).join(' , ')}</h3>
-                            <h3>{game.released}</h3>
-                            <h3>{game.rating}</h3>
+
+                        <div className={style.container2}>
+
+                            <label className={style.genres2}>
+                                <h4>Genres:</h4>
+                                {game.genres.map(e => e.name).join(" ")}
+                            </label>
+
+                            <label className={style.genres}>
+                                <h4>Platforms:</h4>
+                                {game.platforms.map(e => e.platform.name).join(' , ')}
+                            </label>
+
+                            <div className={style.info}>
+                                <label>
+                                    <h4>date:</h4>
+                                    {game.released}
+                                </label>
+                                <label>
+                                    <h4>rating:</h4>
+                                    {game.rating}
+                                </label>
+
+                            </div>
                         </div>
                         <div>
                             <p className={style.description}>{game.description.replace(/<[^>]*>?/g, "")}</p>
                         </div>
-                    </> : game?.Genres ?
-                        <>
+                        {/* ----------------------------------- BD ----------------------------------- */}
+                    </div> : game?.Genres ?
+                        <div className={style.container}>
                             <h1>{game.name}</h1>
-                            <img className={style.img2} src={game.image} alt="" />
-                            <div>
-                                <h3>{game.Genres.map(e => e.name)}</h3>
-                                <h3>{game.platforms}</h3>
-                                <h3>{game.rating}</h3>
-                                <h3>{game.date}</h3>
+                            <img className={style.img} src={game.image} alt="" />
+
+                            <div className={style.container2}>
+                                <label className={style.genres2}>
+                                    <h4>Genres:</h4>
+                                    {game.Genres.map(e => e.name).join(" ")}
+                                </label>
+                                <label className={style.genres}>
+                                    <h3>Platforms:</h3>
+                                    {game.platforms}
+                                </label>
+
+                                <div className={style.info}>
+                                    <label>
+                                        <h4>date:</h4>
+                                        {game.date}
+                                    </label>
+                                    <label>
+                                        <h4>rating:</h4>
+                                        {game.rating}
+                                    </label>
+
+                                </div>
                             </div>
                             <p className={style.description}>{game.description}</p>
-                        </> :
+                        </div> :
                         <h1>Loading...</h1>
             }
         </div>

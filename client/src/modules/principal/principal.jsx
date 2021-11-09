@@ -23,16 +23,11 @@ const Pagprincipal = () => {
         dispatch(setPag(page))
     }
 
-
     // const all = () => {
     //     dispatch(getAllGame({ page, order }))
     // }
 
-    // if (!filtergames.concats.name) {
-    //     return (
-    //         <h1>Loading</h1>
-    //     )
-    // } else {
+   
         return (
 
             <div>
@@ -67,7 +62,7 @@ const Pagprincipal = () => {
                 </div>
             </div >
         )
-    }
-// }
+    
+}
 
 export default Pagprincipal
