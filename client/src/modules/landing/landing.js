@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getGenre, getAllGame } from "../../action/actions";
 import style from './style.module.css'
-
+import image from "./start.png"
 
 const LandingPage = () => {
     const dispatch = useDispatch()
@@ -16,7 +16,7 @@ const LandingPage = () => {
     return (
         <div className={style.landing}>
             <NavLink to="/home">
-                <img src="C:\Users\USER\Desktop\games\client\src\modules\landing\KEY0.CC-Press-Start-Png-Press-Start-Pixel-Png.png" />
+                <img className={style.nav} src={image} />
             </NavLink>
         </div>
     )

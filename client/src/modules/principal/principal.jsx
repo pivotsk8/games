@@ -9,14 +9,14 @@ import Order from "../Order/Order.js";
 
 const Pagprincipal = () => {
     const dispatch = useDispatch()
-    const { allGames, filtergames, page, order,name } = useSelector(state => state)
+    const { allGames, filtergames, page, order, name } = useSelector(state => state)
 
 
 
     useEffect(() => {
         dispatch(getAllGame({}))
         dispatch(getGenre())
-    }, [],filtergames,allGames)
+    }, [], filtergames, allGames)
 
     const changepag = (page) => {
         dispatch(getAllGame({ page, name, order }))
@@ -27,42 +27,47 @@ const Pagprincipal = () => {
     // const all = () => {
     //     dispatch(getAllGame({ page, order }))
     // }
-   
 
-    return (
+    // if (!filtergames.concats.name) {
+    //     return (
+    //         <h1>Loading</h1>
+    //     )
+    // } else {
+        return (
 
-        <div>
+            <div>
 
-            <Order />
-            {/* <button onClick={all} >all</button> */}
-            
-            <div className={style.container} >
-                {/* option 4;  reducer 2,3 */}
-                {
-                    //allGames?.concats?.length > 0 && allGames?.concats?.map((e) => {
-                    //allGames?.concats2?.length > 0 && allGames?.concats2?.map((e) => {
-                    filtergames?.concats?.length > 0 && filtergames?.concats?.map((e) => {
-                        // filtergames?.concats2?.length > 0 && filtergames?.concats2?.map((e) => {
+                {/* <button onClick={all} >all</button> */}
+                <Order />
 
-                        return (
-                            <Card name={e.name} id={e.id} key={e.id} image={e.image} gener={e.Genres?.map((el, i) => <li className={style.li} key={i}>{el}</li>)} />
-                            //<Card name={e.name} id={e.id} key={e.id} image={e.image} gener={e.Genres.slice(0, 3)?.map((el, i) => <li className={style.li} key={i}>{el}</li>)} />
+                <div className={style.container} >
+                    {/* option 4;  reducer 2,3 */}
+                    {
+                        //allGames?.concats?.length > 0 && allGames?.concats?.map((e) => {
+                        //allGames?.concats2?.length > 0 && allGames?.concats2?.map((e) => {
+                        filtergames?.concats?.length > 0 && filtergames?.concats?.map((e) => {
+                            // filtergames?.concats2?.length > 0 && filtergames?.concats2?.map((e) => {
 
-                        )
-                    })
-                
-                }
-              
-                <div className={style.page}>
-                    <button className={style.back} disabled={page - 1 === 0} onClick={() => { changepag(page - 1) }}>back</button>
-                    <label className={style.pag}>{page}</label>
-                    {/* <button disabled={allGames?.count <= (page * 2)} onClick={() => { changepag(page + 1) }}>next</button> */}
-                    <button className={style.next} disabled={filtergames?.count <= (page * 2)} onClick={() => { changepag(page + 1) }}>next</button>
+                            return (
+                                <Card name={e.name} id={e.id} key={e.id} image={e.image} gener={e.Genres?.map((el, i) => <li className={style.li} key={i}>{el}</li>)} />
+                                //<Card name={e.name} id={e.id} key={e.id} image={e.image} gener={e.Genres.slice(0, 3)?.map((el, i) => <li className={style.li} key={i}>{el}</li>)} />
 
+                            )
+                        })
+
+                    }
+
+                    <div className={style.page}>
+                        <button className={style.back} disabled={page - 1 === 0} onClick={() => { changepag(page - 1) }}>back</button>
+                        <label className={style.pag}>{page}</label>
+                        {/* <button disabled={allGames?.count <= (page * 2)} onClick={() => { changepag(page + 1) }}>next</button> */}
+                        <button className={style.next} disabled={filtergames?.count <= (page * 2)} onClick={() => { changepag(page + 1) }}>next</button>
+
+                    </div>
                 </div>
-            </div>
-        </div >
-    )
-}
+            </div >
+        )
+    }
+// }
 
 export default Pagprincipal

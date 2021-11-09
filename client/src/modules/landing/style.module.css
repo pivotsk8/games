@@ -1,20 +1,28 @@
 .landing {
-    background-image: url(./Game.jpg);
-    background-size: cover;
-    height: 24rem;
+  background-image: url(./Game.jpg);
+  background-size: cover;
+  height: 23.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
+
 .nav {
-   
+  width: 200px;
+  height: 100px;
+  animation-duration: 3s;
+  animation-name: logo;
+  animation-iteration-count: infinite;
+}
+
+@keyframes logo {
+  50% {
+    width: 200px;
+    height: 100px;
   }
-  
-  @keyframes logo {
-    50% {
-      width: 700px;
-      height: 300px;
-    }
-  
-    50% {
-      width: 600px;
-      height: 200px;
-    }
+  50% {
+    width: 233px;
+    height: 95px;
   }
+}
+

@@ -29,8 +29,8 @@ const Game = (props) => {
                         <h1>{game.name}</h1>
                         <img className={style.img} src={game.background_image} alt="" />
                         <div>
-                            <h3>{game.genres.map(e => e.name).join(" ")}</h3>
-                            <h3>{game.platforms.map(e => e.platform.name).join(' , ')}</h3>
+                            <h3 className={style.genres}>{game.genres.map(e => e.name).join(" ")}</h3>
+                            <h3 >{game.platforms.map(e => e.platform.name).join(' , ')}</h3>
                             <h3>{game.released}</h3>
                             <h3>{game.rating}</h3>
                         </div>
@@ -40,7 +40,7 @@ const Game = (props) => {
                     </> : game?.Genres ?
                         <>
                             <h1>{game.name}</h1>
-                            <img className={style.img} src={game.image} alt="" />
+                            <img className={style.img2} src={game.image} alt="" />
                             <div>
                                 <h3>{game.Genres.map(e => e.name)}</h3>
                                 <h3>{game.platforms}</h3>

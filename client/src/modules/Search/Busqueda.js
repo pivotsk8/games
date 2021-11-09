@@ -15,18 +15,17 @@ function Search() {
     const onSubmit = (e) => {
         e.preventDefault()
         dispatch(setName(name))
-        dispatch(getAllGame({ page:1,name:name }))
+        dispatch(getAllGame({ page: 1, name: name }))
         dispatch(setPag(1))
         setInput("")
-        
+
     }
-    
-    
+
+
     return (
         <form onSubmit={onSubmit}>
             <input className={style.input} type="text" placeholder="search name" onChange={handleOnChange} value={name} />
             <button className={style.search} type="submit">Search</button>
-
         </form>
     )
 }
