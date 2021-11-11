@@ -37,8 +37,8 @@ const getAll = async (req, res, next) => {
                     date: games.released,
                     rating: games.rating_top,
                     description: games.description,
-                   // platforms: games.platforms.map(plat => plat.platform.name).join(' , '),
-                   // platforms: games.platforms.map(plat => plat.platform),
+                    // platforms: games.platforms.map(plat => plat.platform.name).join(' , '),
+                    // platforms: games.platforms.map(plat => plat.platform),
                     image: games.background_image,
                     Genres: games.genres.map(genre => genre.name)
                 }
@@ -47,16 +47,30 @@ const getAll = async (req, res, next) => {
             result = result.filter(game => game.name.includes(normal))
 
 
+            // gamebd = await Videogame.findAll({
+            //     include: {
+            //         model: Genres,
+            //         attributes: ["name"],
+            //         through: {
+            //             attributes: []
+            //         },
+            //         name: {
+            //             [Op.iLike]: `%${name}%`
+            //         }
+            //     }
             gamebd = await Videogame.findAll({
+                where: {
+                    name: {
+                        [Op.iLike]: `%${name}%`
+                    }
+                },
                 include: {
                     model: Genres,
                     attributes: ["name"],
                     through: {
                         attributes: []
-                    }, 
-                    name: {
-                    [Op.iLike]: `%${name}%`
-                }}
+                    },
+                }
 
                 // }
                 // where: {
@@ -73,7 +87,7 @@ const getAll = async (req, res, next) => {
                 //     model: Genres,
                 //     through: {
                 //       where: {
-                                
+
                 //         completed: true
                 //       }
                 //     }}

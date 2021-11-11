@@ -15,10 +15,10 @@ function Order() {
     }
     const handleSelectFilter = (e) => {
         e.target.value === "" ?
-            dispatch(getAllGame({ page, })) :
+            dispatch(getAllGame({ page,})) :
             dispatch(getFilter(e.target.value))
-
     }
+
     // const handleSelectFilter = (e) => {
     //     dispatch(getFilter(e.target.value))
 

@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
-import { getGame } from '../../action/actions'
+import { getGame, getAllGame,setPag } from '../../action/actions'
 import style from "./style.module.css"
 
 
 const Game = (props) => {
     const { id } = props.match.params
-    const { game } = useSelector(state => state)
+    const { game, } = useSelector(state => state)
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -17,6 +17,7 @@ const Game = (props) => {
 
     const goBack = () => {
         history.goBack()
+        dispatch(setPag(1))
     }
 
     return (

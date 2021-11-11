@@ -26,13 +26,14 @@ const Pagprincipal = () => {
     // const all = () => {
     //     dispatch(getAllGame({ page, order }))
     // }
+    /* <button onClick={all} >all</button> */
 
-   
+    if (allGames.concats) {
+
         return (
 
             <div>
 
-                {/* <button onClick={all} >all</button> */}
                 <Order />
 
                 <div className={style.container} >
@@ -51,7 +52,7 @@ const Pagprincipal = () => {
                         })
 
                     }
-
+{ filtergames?.concats?.length === 0 && <h1>no games</h1> }
                     <div className={style.page}>
                         <button className={style.back} disabled={page - 1 === 0} onClick={() => { changepag(page - 1) }}>back</button>
                         <label className={style.pag}>{page}</label>
@@ -61,8 +62,16 @@ const Pagprincipal = () => {
                     </div>
                 </div>
             </div >
+
         )
-    
+    } else {
+        return (
+            <div>
+                <h1 className={style.text}>cargando...</h1>
+            </div>
+        )
+    }
+
 }
 
 export default Pagprincipal
